@@ -9,11 +9,11 @@ usage
 Add backbone.cartodb.js to your HTML. This library does **not** change Backbone.sync method so you could use it
 as usual if you have another models in your app from a REST API or localstorage.
 
-Fist you have to create a CartoDB instance linked to your account:
+First you have to create a CartoDB instance linked to your account:
 
         var CartoDB = Backbone.CartoDB({
-            user: 'MYNAME' // you should put your account name here
-                           // YOURNAME.cartobd.com
+            user: 'YOURUSER' // you should put your account name here
+                           // YOURUSER.cartobd.com
         });
 
 Then you have to define a collection pointing to your public table:
