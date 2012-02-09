@@ -1,4 +1,3 @@
-
 Backbone.CartoDB
 ================
 
@@ -44,7 +43,7 @@ Now you can do all you have been doing with Backbone models, that is, bind event
 more features
 -------------
 
-** PostGIS functions **
+**PostGIS functions**
 
 if you map a column using a PostGIS function it will be mapped to a object:
 
