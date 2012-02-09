@@ -77,7 +77,9 @@ all the columns will be mapped to model attributes. But be careful, geo types wi
 examples
 --------
 
-You can take a look at exaples folder
+ - You can take a look at exaples folder
+ - Real world usage: https://github.com/Vizzuality/wri/blob/master/app/public/js/modules/country.js
+
 
 
 
