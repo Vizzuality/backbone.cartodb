@@ -74,6 +74,11 @@ if you feel like real men, you can do this:
 
 all the columns will be mapped to model attributes. But be careful, geo types will not be converted.
 
+examples
+--------
+
+You can take a look at exaples folder
+
 
 
 
