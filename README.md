@@ -1,7 +1,8 @@
 Backbone.CartoDB
 ================
 
-this is a library that allows to access data from CartoDB using the SQL-API in the same way it works with REST
+This is a library that allows to access data from CartoDB using the SQL-API in the same way it works with REST. It is a read only 
+library so you can not save data to CartoDB.
 
 usage
 -----
@@ -47,7 +48,7 @@ more features
 
 **PostGIS functions**
 
-if you map a column using a PostGIS function it will be mapped to a object:
+if you map a column using a PostGIS function it will be mapped to na object:
 
     columns: {
         'center': 'ST_Centroid(the_geom)',
