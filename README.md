@@ -32,9 +32,11 @@ columns dict tells which columns you want to fetch and the name are going to hav
 
     var places = new WifiPlaces();
     places.fetch();
-    places.each(function(p) {
-        console.log(p.get('address'));
-        console.log(p.get('location'));
+    places.bind('reset', function() {
+         places.each(function(p) {
+            console.log(p.get('address'));
+            console.log(p.get('location'));
+        });
     });
 
 
