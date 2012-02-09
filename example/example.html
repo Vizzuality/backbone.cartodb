@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+      <title>Backbone.CartoDB Example</title>
+      <style> 
+          html {
+              font:19px normal "Helvetica", "sans-serif";
+          }
+          body {
+              width: 800px;
+              margin: 0 auto;
+          }
+          h1 {
+              font-size: 100px;
+              color: #555;
+              letter-spacing: -5px;
+          }
+          ul {
+              list-style-type: none;
+          }
+          li {
+              padding: 20px;
+              border-bottom: 1px solid #ccc;
+          }
+          li:hover {
+              background: #EEE;
+          }
+          li a {
+              color: #06c;
+              text-decoration:none;
+          }
+          .filter { text-align: center;}
+          .filter a {
+              text-decoration:none;
+              display: inline-block;
+              width: 130px;
+              margin-right: 20px;
+              padding: 20px 10px;
+              background: #999;
+              color: white;
+          }
+      </style>
+    </head>
+    <body>
+      <h1>Wifi Places in NY</h1>
+      <div id="wifi_list">
+          <div class="filter"><a href='#' class="free">free</a><a href='#' class="fee">fee-based</a></div>
+          <ul></ul>
+      </div>
+    </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+    <script type="text/javascript" src="vendor/underscore-1.1.6.js"></script>
+    <script type="text/javascript" src="vendor/backbone.js"></script>
+    <script type="text/javascript" src="../backbone.cartodb.js"></script>
+
+    <script>
+        // generate CartoDB object linked 
+        // to examples account.
+        var CartoDB = Backbone.CartoDB({
+            user: 'examples' // you should put your account name here
+        });
+
+        var Wifi = CartoDB.CartoDBModel.extend({
+
+            lat: function() {
+                return this.get('location').coordinates[1];
+            },
+
+            lng: function() {
+                return this.get('location').coordinates[0];
+            }
+        });
+
+        var WifiPlaces= CartoDB.CartoDBCollection.extend({
+            model: Wifi,
+            table: 'nyc_wifi', //public table
+            columns: {
+                'address': 'address',
+                'type': 'type',
+                'name': 'name',
+                'location': 'the_geom'
+            },
+
+        });
+
+        var EntryView = Backbone.View.extend({
+            tagName: 'li',
+            render: function() {
+                var latlon = this.model.lat() + "," + this.model.lng();
+                $(this.el).html(
+                    '<a href="http://maps.google.com/?q=' + latlon + '">' + this.model.get('address') + '</a>'
+                );
+                return this;
+            }
+        });
+
+        // some helper view to show how to use the model
+        var ListView = Backbone.View.extend({
+            events: {
+                'click .free': 'filter_free',
+                'click .fee': 'filter_fee'
+            },
+
+            initialize: function() {
+                this.wifi = this.options.wifi;
+                this.wifi .bind('reset', this.render, this);
+            },
+
+            filter_free: function() {
+                this.wifi.where = "type = 'Free'"
+                this.$('ul').html('loading...');
+                this.wifi.fetch();
+            },
+
+            filter_fee: function() {
+                this.wifi.where = "type = 'Fee-based'"
+                this.$('ul').html('loading...');
+                this.wifi.fetch();
+            },
+
+            render: function() {
+                var self = this;
+                this.$('ul').html('');
+                this.wifi.each(function(w) {
+                    self.$('ul').append(new EntryView({model: w}).render().el);
+                });
+            }
+        });
+
+        var wifi_places = new WifiPlaces();
+        var wifi_list = new ListView({
+            el:$('#wifi_list'),
+            wifi: wifi_places
+        });
+        wifi_places.fetch();
+
+    </script>
+</html>

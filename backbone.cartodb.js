@@ -109,7 +109,7 @@ Backbone.CartoDB = function(options, query, cache) {
         var select = [];
         for(var k in this.columns) {
           var w = this.columns[k];
-          if(w.indexOf('ST_') !== -1) {
+          if(w.indexOf('ST_') !== -1 || w === "the_geom") {
             select.push(SQL('ST_AsGeoJSON({1}) as {0}').format(k,w));
           } else {
             select.push(SQL('{1} as {0}').format(k, w));
@@ -123,7 +123,7 @@ Backbone.CartoDB = function(options, query, cache) {
         for(var k in row) {
           var v = row[k];
           var c = this.columns[k];
-          if (c.indexOf('ST_') !== -1) {
+          if (c.indexOf('ST_') !== -1 || c === "the_geom") {
             parsed[k] = JSON.parse(v);
           } else {
             parsed[k] = row[k];
