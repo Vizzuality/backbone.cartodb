@@ -54,7 +54,7 @@ if you map a column using a PostGIS function it will be mapped to a object:
 
 then model.get('center') will return a point in GeoJSON format (as javascript object)
 
-** filter **
+**filter**
 
 you could do:
 
@@ -62,7 +62,7 @@ you could do:
 
 so you will only get models with type = Free
 
-** raw sql **
+**raw sql**
 
 if you feel like real men, you can do this:
 
