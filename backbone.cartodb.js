@@ -37,7 +37,6 @@ Backbone.CartoDB = function(options, query, cache) {
       return str;
     };
 
-
     var resource_path= options.user + '.cartodb.com/api/v1/sql';
     var resource_url = 'https://' + resource_path;
 
@@ -96,12 +95,12 @@ Backbone.CartoDB = function(options, query, cache) {
     var CartoDBModel = Backbone.Model.extend({
 
       _create_sql: function() {
-        var where = SQL(" where {0} = '{1}'").format(
+        var where_ = SQL(" where {0} = '{1}'").format(
             this.columns[this.what], 
             this.get(this.what).replace("'", "''")
         );
         var select = this._sql_select();
-        var sql = 'select ' + select.join(',') + ' from ' + this.table + where;
+        var sql = 'select ' + select.join(',') + ' from ' + this.table + where_;
         return sql;
       },
 
@@ -141,6 +140,21 @@ Backbone.CartoDB = function(options, query, cache) {
     });
 
 
+var Note = Backbone.Model.extend({
+
+  initialize: function() {  },
+
+  author: function() {  },
+
+  coordinates: function() {  },
+
+  allowedToEdit: function(account) {
+    return true;
+  }
+
+});
+
+
     /**
      * cartodb collection created from a sql composed using 'columns' and
      * 'table' attributes defined in a child class
@@ -162,8 +176,8 @@ Backbone.CartoDB = function(options, query, cache) {
         tables = tables.join(',');
         var select = CartoDBModel.prototype._sql_select.call(this);
         var sql = 'select ' + select.join(',') + ' from ' + this.table;
-        if (this.where) {
-            sql += " WHERE " + this.where;
+        if (this.where_) {
+            sql += " WHERE " + this.where_;
         }
         return sql;
       },
@@ -204,6 +218,7 @@ Backbone.CartoDB = function(options, query, cache) {
       query: query,
       CartoDBCollection: CartoDBCollection,
       CartoDBModel: CartoDBModel,
+      Note: Note,
       SQL: SQL
     };
 
